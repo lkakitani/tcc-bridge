@@ -22,23 +22,23 @@ int main() {
 	xmlFile << "\t<recipient>" << recipient << "</recipient>\n";
 	xmlFile << "\t<request_type>" << request << "</request_type>\n";
 
-	xmlFile << "\t<response>\n";
+	xmlFile << "\t<response>";
 	if (request == "sensor") {
 
 		// light sensor
-		xmlFile << "\t\t<sensor type=\"LUM\">\n";
+		xmlFile << "\n\t\t<sensor type=\"LUM\">\n";
 		xmlFile << "\t\t\t<value>" << lightSensor << "</value>\n";
 		xmlFile << "\t\t</sensor>\n";
 		// presence sensor
 		xmlFile << "\t\t<sensor type=\"PRES\">\n";
 		xmlFile << "\t\t\t<value>" << presenceSensor << "</value>\n";
-		xmlFile << "\t\t</sensor>\n";
+		xmlFile << "\t\t</sensor>\n\t";
 
 	} else if (request == "function" || request == "program") {
-		xmlFile << "\t\t<return>ok</return>\n";
+		xmlFile << "ok";
 	}
 
-	xmlFile << "\t</response>\n";
+	xmlFile << "</response>\n";
 	xmlFile << "</bridgemsg>";
 	xmlFile.close();
 

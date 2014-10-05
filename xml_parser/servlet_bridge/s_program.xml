@@ -2,7 +2,7 @@
 
 <servletmsg sid="s0003">
 	<recipient>002</recipient>
-	<request_type>sensor</request_type>
+	<request_type>program</request_type>
 	<request>
 		<program>01001001010101001001001010001001010101010</program> 
 	</request>

@@ -2,8 +2,5 @@
 
 <servletmsg sid="s0003">
 	<recipient>002</recipient>
-	<request_type>program</request_type>
-	<request>
-		<sensor_request>ALL</sensor_request>
-	</request>
+	<request_type>sensor</request_type>
 </servletmsg>

@@ -5,8 +5,9 @@
 int main() {
 	pugi::xml_document doc;
 
-	//pugi::xml_parse_result result = doc.load_file("s_sensor.xml");
-	pugi::xml_parse_result result = doc.load_file("s_function.xml");
+	pugi::xml_parse_result result = doc.load_file("s_sensor.xml");
+	//pugi::xml_parse_result result = doc.load_file("s_function_changecolor.xml");
+	//pugi::xml_parse_result result = doc.load_file("s_function_turnoff.xml");
 	//pugi::xml_parse_result result = doc.load_file("s_program.xml");
     
 	if (!result) return -1;
@@ -26,8 +27,7 @@ int main() {
 
 	if (request_type == "sensor") {
 		
-		std::string sensor = msg.child("request").child("sensor_request").child_value(); // ALL | LUM | PRES
-		std::cout << "sensor request: " << sensor << std::endl;
+		std::cout << "sensor request" << std::endl;
 
 	} else if (request_type == "function") {
 		
