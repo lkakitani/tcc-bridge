@@ -3,6 +3,13 @@
 <bridgemsg bid="b0003">
 	<sid>002</sid>
 	<recipient>1</recipient>
+	<request_type>sensor</request_type>
 	<response>
+		<sensor type="LUM">
+			<value>1231</value>
+		</sensor>
+		<sensor type="PRES">
+			<value>1</value>
+		</sensor>
 	</response>
 </bridgemsg>
