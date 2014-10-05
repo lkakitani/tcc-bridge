@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<servletmsg sid="s0003">
+	<recipient>002</recipient>
+	<request_type>sensor</request_type>
+	<request>
+		<program>01001001010101001001001010001001010101010</program> 
+	</request>
+</servletmsg>
