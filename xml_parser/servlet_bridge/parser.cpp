@@ -4,9 +4,68 @@
 #include <bitset>
 #include <sstream>
 #include <algorithm>
+using namespace std;
 
-std::string decToBin(int number) {
-	std::string result = "";
+string hexToBin(string hex) {
+	string result = "";
+	for (int i = 0; i < hex.length(); i++) {
+		switch(hex[i])
+		{
+			case '0':
+				result += "0000";
+				break;
+			case '1':
+				result += "0001";
+				break;
+			case '2':
+				result += "0010";
+				break;
+			case '3':
+				result += "0011";
+				break;
+			case '4':
+				result += "0100";
+				break;
+			case '5':
+				result += "0101";
+				break;
+			case '6':
+				result += "0110";
+				break;
+			case '7':
+				result += "0111";
+				break;
+			case '8':
+				result += "1000";
+				break;
+			case '9':
+				result += "1001";
+				break;
+			case 'A':
+				result += "1010";
+				break;
+			case 'B':
+				result += "1011";
+				break;
+			case 'C':
+				result += "1100";
+				break;
+			case 'D':
+				result += "1101";
+				break;
+			case 'E':
+				result += "1110";
+				break;
+			case 'F':
+				result += "1111";
+				break;
+		}
+	}
+	return result;
+}
+
+string decToBin(int number) {
+	string result = "";
 	do {
 		if ( (number & 1) == 0 )
 			result += "0";
@@ -16,47 +75,80 @@ std::string decToBin(int number) {
 		number >>= 1;
 	} while (number);
 
- 	reverse(result.begin(), result.end());
+ // 	reverse(result.begin(), result.end());
 	return result;
 }
 
-void setServletId(std::bitset<256> payload, std::string servletId) {
+void setServletId(bitset<256> &payload, string servletId) {
 
-	int id = std::stoi(servletId); // servletId as int
-	std::string binaryString = decToBin(id); // servletId as binary
+	int id = stoi(servletId); // servletId as int
+	string binaryString = decToBin(id); // servletId as binary
 
-	std::string final = std::string(64 - binaryString.length(), '0').append(binaryString);
-	std::cout << "servlet final: " << final << ", length: " << final.length() << std::endl;
-}
-
-void setRecipient(std::bitset<256> payload, std::string recipient) {
-
-	int rec = std::stoi(recipient); // recipient as int
-	std::string binaryString = decToBin(rec); // recipient as binary
-
-	std::string final = std::string(8 - binaryString.length(), '0').append(binaryString);
-
-	std::cout << "rec: " << rec << ", binaryString " << binaryString << std::endl;
-	std::cout << "recipient final: " << final << ", length: " << final.length() << std::endl;
-}
-
-void setUnixTime(std::bitset<256> payload, std::string unixTime) {
-
-	int time = std::stoi(unixTime); // unixTime as int
-	std::string binaryString = decToBin(time); // unixTime as binary
+	string final = string(64 - binaryString.length(), '0').append(binaryString);
+	cout << "servlet final: " << final << ", length: " << final.length() << endl;
 	
-	std::string final = std::string(32 - binaryString.length(), '0').append(binaryString);
-	std::cout << "unix time final: " << final << ", length: " << final.length() << std::endl;
+// 	reverse(final.begin(), final.end());
+	for (int i = 0; i < 64; i++) {
+		if (final[i] == '0')
+			payload[i+8] = 0;
+		else
+			payload[i+8] = 1;
+	}
+}
+
+void setRecipient(bitset<256> &payload, string recipient) {
+
+	int rec = stoi(recipient); // recipient as int
+	string binaryString = decToBin(rec); // recipient as binary
+
+	string final = string(8 - binaryString.length(), '0').append(binaryString);
+
+	cout << "rec: " << rec << ", binaryString " << binaryString << endl;
+	cout << "recipient final: " << final << ", length: " << final.length() << endl;
+
+// 	reverse(final.begin(), final.end());
+	for (int i = 0; i < 8; i++) {
+		if (final[i] == '0')
+			payload[i+72] = 0;
+		else
+			payload[i+72] = 1;
+	}
+}
+
+void setUnixTime(bitset<256> &payload, string unixTime) {
+
+	int time = stoi(unixTime); // unixTime as int
+	string binaryString = decToBin(time); // unixTime as binary
+	
+	string final = string(32 - binaryString.length(), '0').append(binaryString);
+	cout << "unix time final: " << final << ", length: " << final.length() << endl;
+
+// 	reverse(final.begin(), final.end());
+	for (int i = 0; i < 32; i++) {
+		if (final[i] == '0')
+			payload[i+80] = 0;
+		else
+			payload[i+80] = 1;
+	}
+}
+
+void setColor(bitset<256> &payload, string hexColor) {	
+	string final = hexToBin(hexColor);
+	cout << "hex color final: " << final << ", length: " << final.length() << endl;
+
+	reverse(final.begin(), final.end());
+	for (int i = 0; i < 24; i++) {
+		if (final[i] == '0')
+			payload[i+112] = 0;
+		else
+			payload[i+112] = 1;
+	}
 }
 
 int main() {
-	pugi::xml_document doc;
-	std::bitset<256> payload; // 32 bytes
 
-	// Parameters common to every message
-	std::bitset<64> servletId; // 8 bytes
-	std::bitset<8> recipient; // 1 byte
-	std::bitset<32> unixTime; // 4 bytes
+	pugi::xml_document doc;
+	bitset<256> payload; // 32 bytes
 
 	//pugi::xml_parse_result result = doc.load_file("s_sensor.xml");
 	pugi::xml_parse_result result = doc.load_file("s_function_changecolor.xml");
@@ -70,19 +162,19 @@ int main() {
 
 	// Get servletmsg attribute called sid
 	//int sid = msg.attribute("sid").as_int();
-	std::string sid = msg.attribute("sid").value();
-	std::cout << "Load result: " << result.description() << "\nsid: " << sid << std::endl;	
+	string sid = msg.attribute("sid").value();
+	cout << "Load result: " << result.description() << "\nsid: " << sid << endl;	
 
 	// Assign servlet id bits to payload
 	setServletId(payload, sid);
-
+	
 	// Get servletmsg children: recipient and request_type
-	std::string recipientTest = msg.child("recipient").child_value();
-	std::string request_type = msg.child("request_type").child_value();
+	string recipientTest = msg.child("recipient").child_value();
+	string request_type = msg.child("request_type").child_value();
 
 	// Assign recipient bits to payload
 	setRecipient(payload, recipientTest);
-	std::cout << "Recipient: " << recipientTest << ", request type: " << request_type << std::endl;
+	cout << "Recipient: " << recipientTest << ", request type: " << request_type << endl;
 
 	if (request_type == "sensor") {
 		// command: 0
@@ -93,7 +185,7 @@ int main() {
 		payload[2] = 0;
 		payload[3] = 0;
 
-		std::cout << "sensor request" << std::endl;
+		cout << "sensor request" << endl;
 
 	} else if (request_type == "function") {
 		// command: 0
@@ -104,13 +196,13 @@ int main() {
 		payload[2] = 0;
 		payload[3] = 1;
 
-		std::string functionType = msg.child("request").child("function").attribute("type").value();
-		std::cout << "function: " << functionType << std::endl;
+		string functionType = msg.child("request").child("function").attribute("type").value();
+		cout << "function: " << functionType << endl;
 	
-		std::string functionTime = msg.child("request").child("time").child_value();
-		std::cout << "time: " << functionTime << std::endl;
+		string functionTime = msg.child("request").child("time").child_value();
+		cout << "time: " << functionTime << endl;
 
-		// Assign unix Time bits to payload
+		// Assign Unix Time bits to payload
 		setUnixTime(payload, functionTime);
 
 		if (functionType == "turn_off") {
@@ -127,19 +219,23 @@ int main() {
 			payload[6] = 0;
 			payload[7] = 1;
 
-			std::string hexColor = msg.child("request").child("function").child("color_hex").child_value();
-			std::cout << "hexColor: " << hexColor << std::endl;
+			string hexColor = msg.child("request").child("function").child("color_hex").child_value();
+			cout << "hexColor: " << hexColor << endl;
+
+			// Assign color bits to payload
+			setColor(payload, hexColor);
 		}
 
 
 	} else if (request_type == "program") {
 		// program: 1
 		payload[0] = 1;
-		std::string program = msg.child("request").child("program").child_value();
-		std::cout << "program: " << program << std::endl;
+		string program = msg.child("request").child("program").child_value();
+		cout << "program: " << program << endl;
 
-		std::string functionTime = msg.child("request").child("time").child_value();
-		std::cout << "time: " << functionTime << std::endl;
+		string functionTime = msg.child("request").child("time").child_value();
+		cout << "time: " << functionTime << endl;
 	}
 
+	cout << "Payload: " << payload << endl;
 }
