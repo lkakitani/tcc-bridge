@@ -1,21 +1,26 @@
 # Instruções para o Raspberry Pi
 
 A. Clonar o repositório tcc-bridge
-    git clone https://github.com/lkakitani/tcc-bridge.git
+``
+git clone https://github.com/lkakitani/tcc-bridge.git
+``
 
 B. Instalar a biblioteca
+``
     cd tcc-bridge/RPi
     sudo make install
-
+``
 C. Rodar o programa exemplo
+``
     cd examples
     make
     sudo ./pingpair_dyn
+``
 
 **Pinos:**  
 
 | PIN | NRF24L01 |    RPI     | RPi -P1 Connector |
-|-----|----------|------------|-------------------|
+|:---:|:--------:|:----------:|:-----------------:|
 |  1  |   GND    | rpi-gnd    |     (25)          |
 |  2  |   VCC    | rpi-3v3    |     (17)          |
 |  3  |   CE     | rpi-gpio22 |     (15)          |
