@@ -2,15 +2,11 @@
 
 A. Clonar o repositório tcc-bridge
 
-``
-    git clone https://github.com/lkakitani/tcc-bridge.git
-``
+    git clone https://github.com/lkakitani/tcc-bridge.git  
 
 B. Instalar a biblioteca RF24
 
-``
-    mv tcc-bridge/arduino/RF24 ~/sketchbook/libraries/
-``
+    mv tcc-bridge/arduino/RF24 ~/sketchbook/libraries/  
 
 C. Rodar o programa pingpair_dyn.ino (o envio ou recebimento é decidido pelo pino 5; no momento presente, está hardcoded)
 
