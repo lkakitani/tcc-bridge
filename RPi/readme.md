@@ -5,17 +5,19 @@ A. Clonar o repositório tcc-bridge
 
 B. Instalar a biblioteca
 
-`cd tcc-bridge/RPi 
-sudo make install
+`cd tcc-bridge/RPi  
+sudo make install  
 `
 
 C. Rodar o programa exemplo
 
-`
 cd examples
 make
 sudo ./pingpair_dyn
-`
+
+
+    cd examples  
+     make  
 
 **Pinos:**  
 
