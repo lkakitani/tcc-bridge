@@ -1,16 +1,20 @@
 # Instruções para o Raspberry Pi
 
 A. Clonar o repositório tcc-bridge
+
 ``
 git clone https://github.com/lkakitani/tcc-bridge.git
 ``
 
 B. Instalar a biblioteca
+
 ``
     cd tcc-bridge/RPi
     sudo make install
 ``
+
 C. Rodar o programa exemplo
+
 ``
     cd examples
     make
@@ -32,8 +36,8 @@ C. Rodar o programa exemplo
 
 
 
-### readme.md original abaixo
-==========
+#### readme.md original abaixo
+-----
 
 # Optimized Raspberry Pi RF24 and RF24 Network Libraries  
 

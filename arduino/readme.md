@@ -1,10 +1,13 @@
 # Instruções para o Arduino Uno
 
 A. Clonar o repositório tcc-bridge
+
 ``
     git clone https://github.com/lkakitani/tcc-bridge.git
 ``
+
 B. Instalar a biblioteca RF24
+
 ``
     mv tcc-bridge/arduino/RF24 ~/sketchbook/libraries/
 ``
