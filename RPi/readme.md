@@ -1,3 +1,35 @@
+# Instruções para o Raspberry Pi
+
+A. Clonar o repositório tcc-bridge
+    git clone https://github.com/lkakitani/tcc-bridge.git
+
+B. Instalar a biblioteca
+    cd tcc-bridge/RPi
+    sudo make install
+
+C. Rodar o programa exemplo
+    cd examples
+    make
+    sudo ./pingpair_dyn
+
+**Pinos:**  
+
+| PIN | NRF24L01 |    RPI     | RPi -P1 Connector |
+|-----|----------|------------|-------------------|
+|  1  |   GND    | rpi-gnd    |     (25)          |
+|  2  |   VCC    | rpi-3v3    |     (17)          |
+|  3  |   CE     | rpi-gpio22 |     (15)          |
+|  4  |   CSN    | rpi-gpio8  |     (24)          |
+|  5  |   SCK    | rpi-sckl   |     (23)          |
+|  6  |   MOSI   | rpi-mosi   |     (19)          |
+|  7  |   MISO   | rpi-miso   |     (21)          |
+|  8  |   IRQ    |    -       |       -           |
+
+
+
+### readme.md original abaixo
+==========
+
 # Optimized Raspberry Pi RF24 and RF24 Network Libraries  
 
  General Documentation: http://tmrh20.github.io  
