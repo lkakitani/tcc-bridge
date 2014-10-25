@@ -5,7 +5,7 @@ git clone https://github.com/lkakitani/tcc-bridge.git
 
 B. Instalar a biblioteca
 
-`cd tcc-bridge/RPi
+`cd tcc-bridge/RPi\n
 sudo make install
 `
 
