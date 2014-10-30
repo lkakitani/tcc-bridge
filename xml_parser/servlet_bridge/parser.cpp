@@ -165,41 +165,55 @@ int main() {
 	pugi::xml_document doc;
 
 	// Notify code
-// 	Inotify notify;
-// 	string watch_dir = "./";
-// 	InotifyWatch watch(watch_dir, IN_ALL_EVENTS);
-// 	notify.Add(watch);
-// 	cout << "Watching directory " << watch_dir << endl << endl;
+ 	Inotify notify;
+ 	string watch_dir = "/var/www/xml";
+ 	//InotifyWatch watch(watch_dir, IN_ALL_EVENTS);
+ 	InotifyWatch watch(watch_dir, IN_CLOSE_WRITE);
+ 	notify.Add(watch);
+ 	cout << "Watching directory " << watch_dir << endl << endl;
 
-// 	for (;;) {
-// 		notify.WaitForEvents();
+ 	for (;;) {
+ 		notify.WaitForEvents();
 
-// 		size_t count = notify.GetEventCount();
-// 		while (count > 0) {
-// 			InotifyEvent event;
-// 			bool got_event = notify.GetEvent(&event);
+ 		size_t count = notify.GetEventCount();
 
-// 			if (got_event) {
-// 				string mask_str;
-// 				event.DumpTypes(mask_str);
+		// TODO FIX THIS
+		bool leave = false;
 
-// 				string filename = event.GetName();
+ 		while (count > 0) {
+ 			InotifyEvent event;
+ 			bool got_event = notify.GetEvent(&event);
 
-// 				cout << "[" << currentDateTime() << " watch " << watch_dir << "] ";
-// 				cout << "event mask: \"" << mask_str << "\", ";
-// 				cout << "filename: \"" << filename << "\"" << endl;
-// 			}
+ 			if (got_event) {
+ 				string mask_str;
+ 				event.DumpTypes(mask_str);
 
-// 			count--;
-// 		}
-// 	}
+ 				string filename = event.GetName();
+
+ 				cout << "[" << currentDateTime() << " watch " << watch_dir << "] ";
+ 				cout << "event mask: \"" << mask_str << "\", ";
+ 				cout << "filename: \"" << filename << "\"" << endl;
+				
+				// TODO FIX THIS
+				if (filename == "message.xml") {leave=true;break;}
+ 			}
+
+ 			count--;
+ 		}
+
+		// TODO FIX THIS
+		if (leave == true) break;	
+
+ 	}
+	
 
 	bitset<256> payload; // 32 bytes
 
 	//pugi::xml_parse_result result = doc.load_file("s_sensor.xml");
-	pugi::xml_parse_result result = doc.load_file("s_function_changecolor.xml");
+	//pugi::xml_parse_result result = doc.load_file("s_function_changecolor.xml");
 	//pugi::xml_parse_result result = doc.load_file("s_function_turnoff.xml");
 	//pugi::xml_parse_result result = doc.load_file("s_program.xml");
+	pugi::xml_parse_result result = doc.load_file("/var/www/xml/message.xml");
 
 	if (!result) return -1;
 
