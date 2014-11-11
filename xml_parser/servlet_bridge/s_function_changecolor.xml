@@ -1,0 +1,12 @@
+	<?xml version="1.0" encoding="UTF-8"?>
+
+<servletmsg sid="0037">
+	<recipient>024</recipient>
+	<request_type>function</request_type>
+	<request>
+		<function type="change_color">
+			<color_hex>8F55C9</color_hex>
+	 	</function>
+		<time>1417715450</time>
+	</request>
+</servletmsg>

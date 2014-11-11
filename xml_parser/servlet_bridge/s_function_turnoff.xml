@@ -1,0 +1,10 @@
+	<?xml version="1.0" encoding="UTF-8"?>
+
+<servletmsg sid="s0003">
+	<recipient>002</recipient>
+	<request_type>function</request_type>
+	<request>
+		<function type="turn_off"></function>
+		<time>now</time>
+	</request>
+</servletmsg>

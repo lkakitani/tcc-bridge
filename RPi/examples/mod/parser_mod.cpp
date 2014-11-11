@@ -1,3 +1,4 @@
+#include "parser_mod.h"
 #include "pugixml.hpp"
 #include "inotify-cxx.h"
 #include <iostream>
@@ -6,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <time.h>
+
 using namespace std;
 
 string hexToBin(string hex) {
@@ -160,7 +162,7 @@ void setColor(bitset<256> &payload, string hexColor) {
 	}
 }
 
-int main() {
+int main_mod() {
 
 	pugi::xml_document doc;
 
