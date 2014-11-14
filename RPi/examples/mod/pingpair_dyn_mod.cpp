@@ -13,7 +13,8 @@
 #include <sstream>
 #include <string>
 #include "../../RF24.h"
-#include "parser_mod.h"
+// #include "parser_mod.h"
+#include <bitset>
 
 using namespace std;
 //
@@ -36,13 +37,11 @@ RF24 radio(RPI_V2_GPIO_P1_15, RPI_V2_GPIO_P1_24, BCM2835_SPI_SPEED_8MHZ);
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
 
 
-
 const int min_payload_size = 4;
 const int max_payload_size = 32;
 const int payload_size_increments_by = 1;
 uint32_t color = 0;
 int next_payload_size = min_payload_size;
-
 char receive_payload[max_payload_size+1]; // +1 to allow room for a terminating NULL char
 
 int main(int argc, char** argv){
