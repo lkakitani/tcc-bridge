@@ -136,7 +136,12 @@ int main(int argc, char** argv){
 					
 			radio.openWritingPipe(pipes[0]);
 			radio.openReadingPipe(1,pipes[1]);
-			
+		
+
+			// Set destination address here	
+			//uint64_t address = 0xAABBCCDDEEFF;
+			//radio.openWritingPipe(address);
+
 			
 			// The payload will always be the same, what will change is how much of it we send.
 			
