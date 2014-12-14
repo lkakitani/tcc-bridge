@@ -142,6 +142,8 @@ int main(int argc, char** argv){
 			string destAddr = messageFromAPI.substr(0,5);
 			string payload = messageFromAPI.substr(5,32);
 
+			cout << "Destination address: " << destAddr << ", Payload: " << payload << endl;
+
 			char destAddrChar[6];
  			strncpy(destAddrChar, destAddr.c_str(), sizeof(destAddrChar));
 			destAddrChar[5] = 0;
@@ -207,6 +209,12 @@ int main(int argc, char** argv){
 
 
 			flag = "0";
+
+			if (remove("/dev/shm/message") != 0) {
+				printf("Error deleting /dev/shm/message\n");
+			} else {
+				printf("/dev/shm/message deleted.\n");
+			}
 
 		}
 	}
