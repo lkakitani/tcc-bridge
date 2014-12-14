@@ -138,33 +138,51 @@ int main(int argc, char** argv){
 			radio.openWritingPipe(pipes[0]);
 			radio.openReadingPipe(1,pipes[1]);
 		
+// 			string destAddr = messageFromAPI.substr(0,10);
+// 			string payload = messageFromAPI.substr(10,64);
 
-			string destAddr = messageFromAPI.substr(0,5);
-			string payload = messageFromAPI.substr(5,32);
+// 			cout << "Destination address: " << destAddr << ", Payload: " << payload << endl;
 
-			cout << "Destination address: " << destAddr << ", Payload: " << payload << endl;
-
-			char destAddrChar[6];
- 			strncpy(destAddrChar, destAddr.c_str(), sizeof(destAddrChar));
-			destAddrChar[5] = 0;
-
-			// Set destination address here	
+			// Set destination address and payload here	
 			uint64_t address = 0x000000000000;
-			for (i = 0; i < 5; i++) {
-				address = address | destAddrChar[i];
-				if (i != 4) // do not shift on last byte
-					address = address << 8;  
+			char send_payload[33];
+			send_payload[32] = 0;
+
+			const char* src;
+			for (i = 0; i < 74; i = i + 2) {
+				string byte = messageFromAPI.substr(i, 2); 
+				src = byte.c_str();
+
+				char hexArray[1] = {0};
+				int hexLength = 0;
+
+				// read in the string
+				unsigned int hex = 0;
+				sscanf(src, "%x", &hex);
+
+				// write it out
+				for (unsigned int mask = 0xff00, bitPos=8; mask; mask>>=8, bitPos-=8) {
+					unsigned int currByte = hex & mask;
+					if (currByte || hexLength) {
+						hexArray[hexLength++] = currByte>>bitPos;
+					}   
+				}   
+
+
+				if (i < 10) {
+					address = address | hexArray[0];
+					if (i != 8)
+						address = address << 8;
+				}   
+				else {
+					int index = 0.5*i - 5;
+					send_payload[index] = hexArray[0];
+				}
+
 			}
+
 			radio.openWritingPipe(address);
 
-			
-			// The payload will always be the same, what will change is how much of it we send.
-			
-			char send_payload[33];
-			strncpy(send_payload, payload.c_str(), sizeof(send_payload));
-			send_payload[32] = 0;
-			
-			
 			//static char send_payload[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ789012";
 
 			// First, stop listening so we can talk.
