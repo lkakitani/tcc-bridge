@@ -39,7 +39,7 @@ const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
 
 
 
-const int min_payload_size = 4;
+const int min_payload_size = 32;
 const int max_payload_size = 32;
 const int payload_size_increments_by = 1;
 int next_payload_size = min_payload_size;
@@ -48,8 +48,9 @@ char receive_payload[max_payload_size+1]; // +1 to allow room for a terminating 
 
 int main(int argc, char** argv){
 
-	string payloadMessage;
+	string messageFromAPI;
 	string flag = "0";
+	int i; //cont
 
 	// Setup and configure rf radio
 	radio.begin();
@@ -129,24 +130,36 @@ int main(int argc, char** argv){
 			// read file 
 			ifstream messageFile ("/dev/shm/message");
 			if (messageFile.good()) {
-				getline(messageFile, payloadMessage);
+				getline(messageFile, messageFromAPI);
 				messageFile.close();
 			}
-			cout << "Message: " << payloadMessage << endl; 
+			cout << "Message: " << messageFromAPI << endl; 
 					
 			radio.openWritingPipe(pipes[0]);
 			radio.openReadingPipe(1,pipes[1]);
 		
 
+			string destAddr = messageFromAPI.substr(0,5);
+			string payload = messageFromAPI.substr(5,32);
+
+			char destAddrChar[6];
+ 			strncpy(destAddrChar, destAddr.c_str(), sizeof(destAddrChar));
+			destAddrChar[5] = 0;
+
 			// Set destination address here	
-			//uint64_t address = 0xAABBCCDDEEFF;
-			//radio.openWritingPipe(address);
+			uint64_t address = 0x000000000000;
+			for (i = 0; i < 5; i++) {
+				address = address | destAddrChar[i];
+				if (i != 4) // do not shift on last byte
+					address = address << 8;  
+			}
+			radio.openWritingPipe(address);
 
 			
 			// The payload will always be the same, what will change is how much of it we send.
 			
 			char send_payload[33];
-			strncpy(send_payload, payloadMessage.c_str(), sizeof(send_payload));
+			strncpy(send_payload, payload.c_str(), sizeof(send_payload));
 			send_payload[32] = 0;
 			
 			
