@@ -91,10 +91,22 @@ int main(int argc, char** argv){
 				printf("Got payload size=%i value=%s\n\r",len,receive_payload);
 				
 				
-				ofstream responseFile ("/dev/shm/response");
-				if (responseFile.is_open()) {
-					responseFile << receive_payload;
-					responseFile.close();
+// 				ofstream responseFile ("/dev/shm/response");
+// 				if (responseFile.is_open()) {
+// 					responseFile << receive_payload;
+// 					responseFile.close();
+// 				}
+
+				// Write response to file
+				FILE * pFile;
+				pFile = fopen ("/dev/shm/response","w");
+				if (pFile != NULL) {
+					for (i = 0; i < 32; i++) {
+						fprintf(pFile, "%x", receive_payload[i] & 0xff);
+					}
+					fclose (pFile);
+				} else {
+					printf("Could not open response file.\n");
 				}
 				
 			}
